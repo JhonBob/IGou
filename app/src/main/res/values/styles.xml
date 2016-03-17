@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="mydlgstyle"
+        parent="android:Theme.Holo.Dialog">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
 </resources>
