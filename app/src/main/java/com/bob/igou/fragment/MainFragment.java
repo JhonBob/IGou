@@ -1,5 +1,6 @@
 package com.bob.igou.fragment;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.bob.igou.R;
+import com.bob.igou.activity.ProductActivity;
 import com.bob.igou.bean.NewsItemInfo;
 import com.bob.igou.lib_lyn.HttpUtils;
 import com.bob.igou.lib_lyn.volley.VolleyLisener;
@@ -33,7 +36,7 @@ import java.util.ArrayList;
 /**
  * Created by Administrator on 2016/3/15.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements AdapterView.OnItemClickListener{
     private View mLayout;
     private ListView mListView;
     private MyListView mAdapter;
@@ -63,6 +66,7 @@ public class MainFragment extends Fragment {
             mListView= (ListView) mLayout.findViewById(R.id.lv_main);
             initoption();
             mListView.setAdapter(mAdapter);
+            mListView.setOnItemClickListener(this);
             new MyAsyn().execute(Constants.URL.FAVORITE_URL);
 //        }else{
 //            ViewGroup parent= (ViewGroup) mLayout.getParent();
@@ -71,6 +75,16 @@ public class MainFragment extends Fragment {
         return mLayout;
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(getActivity(), ProductActivity.class);
+        intent.putExtra("title",datalist.get(position).title);
+        intent.putExtra("short_title",datalist.get(position).str);
+        intent.putExtra("price",datalist.get(position).price);
+        String img_url=datalist.get(position).pic.get(position%pic.size());
+        intent.putExtra("img_URL",img_url);
+        startActivity(intent);
+    }
 
 
     class MyListView extends BaseAdapter{
